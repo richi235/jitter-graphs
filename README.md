@@ -1,15 +1,10 @@
 # jitter-graphs
-Generate jitter (cpdv) graphs from pcaps of iperf2 test runs.
-
-For TCP we use the TCP sequence numbers for UDP we use the sequence numbers added by iperf
-in its own application layer header.
-
-Default output format is pdf
+Generate jitter (cpdv) graphs (as pdf) from pcaps of iperf2 test runs.
 
 
 ## Dependencies
 
-## general:
+### general dependencies:
 
  - python3
  - iperf
@@ -39,7 +34,7 @@ Now, in another terminal, start the iperf test run. -R reverse from the host to 
 
 `iperf -c katze.de -R -b 1M `
 
-After iperf is finished change into the tcpdump terminal and kill tcpdump with Ctrl+c. No you can call `cpdv_tsv.py` on the pcap file.
+After iperf is finished change into the tcpdump terminal and kill tcpdump with Ctrl+c. Now you can call `cpdv_tsv.py` on the pcap file.
 Here in this example it lies in the parent folder to the pcap, depending where you put it that might be slightly different. This is the computation intense
 part, it generates a tsv (tab seperated values) file from the pcap containing the sequence numbers and timings. One .tsv file for every flow it finds 
 in the pcap.
@@ -59,10 +54,18 @@ You can also create Jitter distribution diagrams with:
 
 `../cpdv_diagram.py distribution -t cpdv_flow1.tsv` 
 
+
 Which look like this: 
 
 ![A jitter distribution diagram](./example/cpdv_dist.png)
 
+This was done with my normal home internet connection and show that there is relatively little reaordering. So overall the path is giving a good service to my packets. Please note that those big delay spice must not necesarrily be from network delay but also because the application might have waited to send the next packet for some reason.
+
+
+## Internals
+
+For TCP we use the TCP sequence numbers for UDP we use the sequence numbers added by iperf
+in its own application layer header.
 
 ## More Examples 
 ```
