@@ -3,11 +3,11 @@ Generate jitter (cpdv) graphs (as pdf) from pcaps of iperf2 test runs.
 
 `cpdv_tsv.py` creates .tsv (tab seperated values) files from the pcaps (this is the computation intense part). 
 
-`cpdv_diagram.py` generates varios diagrams like those following from those .tsv files.
+`cpdv_diagram.py` generates varios diagrams like the following from those .tsv files.
 
 ![A jitter diagram](./example/cpdv_flow1.png)
 
-This seperation is done on purpose so you can do the computation intense step only once and then try around a lot with different diagram settings if necesarry.
+This seperation of tools is done on purpose so you can do the computation intense step only once and then try around a lot with different diagram settings if necesarry.
 
 
 ## Dependencies
@@ -67,6 +67,8 @@ Which look like this:
 
 ![A jitter distribution diagram](./example/cpdv_dist.png)
 
+You can provide several parameters to the distribution subcommand to control how exactly the diagram is drawn and make it better at illustrating your data. See `cpdv_diagram.py distribution -h` and the examples below for details.
+
 This was done with my normal home internet connection and show that there is relatively little reaordering. So overall the path is giving a good service to my packets. Please note that those big delay spice must not necesarrily be from network delay but also because the application might have waited to send the next packet for some reason.
 
 
@@ -81,7 +83,7 @@ We make use of the fact that per default iperf sends packets regularily with a c
 
 ## More Examples 
 
-The cpdv tools can alos work with multiple folders and provide extensive help output on all their parameters and subcommands:
+The cpdv tools can alos work with multiple folders/pcaps/.tsv files and provide extensive help output on all their parameters and subcommands:
 
 ```
 cpdv_tsv.py udp  */*.pcap
@@ -95,3 +97,6 @@ cpdv_diagram.py points -d afmt_noqueue_busy_wait/ llfmt_noqueue_busy_wait/  otia
 cpdv_diagram.py points -h
 cpdv_diagram.py distribution -h
 ```
+
+## Acknowledgments
+
