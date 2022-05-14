@@ -1,6 +1,14 @@
 # jitter-graphs
 Generate jitter (cpdv) graphs (as pdf) from pcaps of iperf2 test runs.
 
+`cpdv_tsv.py` creates .tsv (tab seperated values) files from the pcaps (this is the computation intense part). 
+
+`cpdv_diagram.py` generates varios diagrams like those following from those .tsv files.
+
+![A jitter diagram](./example/cpdv_flow1.png)
+
+This seperation is done on purpose so you can do the computation intense step only once and then try around a lot with different diagram settings if necesarry.
+
 
 ## Dependencies
 
@@ -62,12 +70,19 @@ Which look like this:
 This was done with my normal home internet connection and show that there is relatively little reaordering. So overall the path is giving a good service to my packets. Please note that those big delay spice must not necesarrily be from network delay but also because the application might have waited to send the next packet for some reason.
 
 
-## Internals
+## Internals and technical Details
 
 For TCP we use the TCP sequence numbers for UDP we use the sequence numbers added by iperf
 in its own application layer header.
 
+The more precise term is Packet Delay Variation (PDV) that's why the tools are called like that. Jitter is a more general term and can mean other things (https://en.wikipedia.org/wiki/Packet_delay_variation).
+
+We make use of the fact that per default iperf sends packets regularily with a constant delay between them. So in a perfect network they would all arrive with the same time difference. By measuring the differnce in arrival times we can see what different delays they experienced. This is called consecutive packet delay variation (cpdv). If iperf traffic would not have this pattern we would need synchronised clocks and timestamps.
+
 ## More Examples 
+
+The cpdv tools can alos work with multiple folders and provide extensive help output on all their parameters and subcommands:
+
 ```
 cpdv_tsv.py udp  */*.pcap
 
