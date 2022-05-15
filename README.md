@@ -1,13 +1,13 @@
 # jitter-graphs
-Generate jitter (cpdv) graphs (as pdf) from pcaps of iperf2 test runs.
+Generate jitter (cpdv) graphs (as PDF) from pcaps of iperf2 test runs.
 
-`cpdv_tsv.py` creates .tsv (tab seperated values) files from the pcaps (this is the computation intense part). 
+`cpdv_tsv.py` creates .tsv (tab separated values) files from the pcaps (this is the computation intense part). 
 
-`cpdv_diagram.py` generates varios diagrams like the following from those .tsv files.
+`cpdv_diagram.py` generates various diagrams like the following from those .tsv files.
 
 ![A jitter diagram](./example/cpdv_flow1.png)
 
-This seperation of tools is done on purpose so you can do the computation intense step only once and then try around a lot with different diagram settings if necesarry.
+This separation of tools is done on purpose so you can do the computation intense step only once and then try around a lot with different diagram settings if necessary.
 
 
 ## Dependencies
@@ -20,7 +20,7 @@ This seperation of tools is done on purpose so you can do the computation intens
 
 ### cpdv_tsv
 
- - scapy (python3-scapy on debian/ubuntu or pip3 install scapy)
+ - scapy (python3-scapy on Debian/Ubuntu or pip3 install scapy)
 
 ### cpdv_diagram 
 
@@ -44,17 +44,17 @@ Now, in another terminal, start the iperf test run. -R reverse from the host to 
 
 After iperf is finished change into the tcpdump terminal and kill tcpdump with Ctrl+c. Now you can call `cpdv_tsv.py` on the pcap file.
 Here in this example it lies in the parent folder to the pcap, depending where you put it that might be slightly different. This is the computation intense
-part, it generates a tsv (tab seperated values) file from the pcap containing the sequence numbers and timings. One .tsv file for every flow it finds 
+part, it generates a tsv (tab separated values) file from the pcap containing the sequence numbers and timings. One .tsv file for every flow it finds 
 in the pcap.
 
 `../cpdv_tsv.py tcp tcp_trace.pcap` 
 
 Here it finds two flows: the iperf control flow (cpdv_flow0.tsv) and the payload flow (cpdv_flow1.tsv). 
-To get a point cloud diagram of the playloud flow do: 
+To get a point cloud diagram of the payload flow do: 
 
 `../cpdv_diagram.py points cpdv_flow1.tsv`
 
-Now you get the following diagram as pdf:
+Now you get the following diagram as PDF:
 
 ![A jitter diagram](./example/cpdv_flow1.png)
 
@@ -69,7 +69,7 @@ Which look like this:
 
 You can provide several parameters to the distribution subcommand to control how exactly the diagram is drawn and make it better at illustrating your data. See `cpdv_diagram.py distribution -h` and the examples below for details.
 
-This was done with my normal home internet connection and show that there is relatively little reaordering. So overall the path is giving a good service to my packets. Please note that those big delay spice must not necesarrily be from network delay but also because the application might have waited to send the next packet for some reason.
+This was done with my normal home internet connection and show that there is relatively little reordering. So overall the path is giving a good service to my packets. Please note that those big delay spice must not necessarily be from network delay but also because the application might have waited to send the next packet for some reason.
 
 
 ## Internals and technical Details
@@ -79,11 +79,13 @@ in its own application layer header.
 
 The more precise term is Packet Delay Variation (PDV) that's why the tools are called like that. Jitter is a more general term and can mean other things (https://en.wikipedia.org/wiki/Packet_delay_variation).
 
-We make use of the fact that per default iperf sends packets regularily with a constant delay between them. So in a perfect network they would all arrive with the same time difference. By measuring the differnce in arrival times we can see what different delays they experienced. This is called consecutive packet delay variation (cpdv). If iperf traffic would not have this pattern we would need synchronised clocks and timestamps.
+We make use of the fact that per default iperf sends packets regularly with a constant delay between them. So in a perfect network they would all arrive with the same time difference. By measuring the difference in arrival times we can see what different delays they experienced. This is called consecutive packet delay variation (cpdv). If iperf traffic would not have this pattern we would need synchronised clocks and timestamps.
+
+The default output format is PDF but it is relatively easy to change in the script to png or jpeg, since matplotlib supports all those directly. It could also be a parameter one day.
 
 ## More Examples 
 
-The cpdv tools can alos work with multiple folders/pcaps/.tsv files and provide extensive help output on all their parameters and subcommands:
+The cpdv tools can also work with multiple folders/pcaps/.tsv files and provide extensive help output on all their subcommands:
 
 ```
 cpdv_tsv.py udp  */*.pcap
@@ -98,5 +100,5 @@ cpdv_diagram.py points -h
 cpdv_diagram.py distribution -h
 ```
 
-## Acknowledgments
+## Acknowledgements
 
